@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
-import  {signInWithPopup}  from 'firebase/auth'
+import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../firebase.config'
+
 
 // Assets Import
 import logo from '../assets/images/logo.svg'
@@ -11,46 +12,88 @@ import WatchListIcon from '../assets/images/watchlist-icon.svg'
 import OriginalsIcon from '../assets/images/original-icon.svg'
 import MoviesIcon from '../assets/images/movie-icon.svg'
 import SeriesIcon from '../assets/images/series-icon.svg'
+import { selectUserName, selectUserPhoto, setUserLogin, setSignOut } from '../features/user/userSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+
 
 const Header = () => {
-  const handleAuth = async() =>{
-    const response = await signInWithPopup(auth, provider);
-    console.log(response);
+  const userName = useSelector(selectUserName);
+  const userPhoto = useSelector(selectUserPhoto);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    auth.onAuthStateChanged(async (user)=>{
+      if(user){
+        dispatch(setUserLogin({
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL
+        }))
+        navigate("/")
+      }
+    })
+  }, [])
+
+
+  const signIn =  () => {
+    signInWithPopup(auth, provider)
+    .then((result) =>{
+      console.log(result)
+      let user = result.user
+      dispatch(setUserLogin({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL
+      }))
+      navigate('/')
+    })
   }
+
+  const signOut = () =>{
+    auth.signOut()
+    .then(() =>{
+      dispatch(setSignOut());
+      navigate("/login")
+    })
+  }
+
   return (
     <Nav>
       <Logo src={logo} />
-      <NavMenu>
-        <a href="/">
-          <img src={HomeIcon} alt="" />
-          <span>HOME</span>
-        </a>
-        <a href="/">
-          <img src={SearchIcon} alt="" />
-          <span>SEARCH</span>
-        </a>
-        <a href="/">
-          <img src={WatchListIcon} alt="" />
-          <span>WATCHLIST</span>
-        </a>
-        <a href="/">
-          <img src={OriginalsIcon} alt="" />
-          <span>ORIGINALS</span>
-        </a>
-        <a href="/">
-          <img src={MoviesIcon} alt="" />
-          <span>MOVIES</span>
-        </a>
-        <a href="/">
-          <img src={SeriesIcon} alt="" />
-          <span>SERIES</span>
-        </a>
-      </NavMenu>
-      <Login onClick={handleAuth} >
-        Login
-      </Login>
-      {/* <UserImage src= "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80" /> */}
-
+      {!userName ? (
+        <Login onClick={signIn}>Login</Login>) :
+        (<>
+          <NavMenu>
+            <a href="/">
+              <img src={HomeIcon} alt="" />
+              <span>HOME</span>
+            </a>
+            <a href="/">
+              <img src={SearchIcon} alt="" />
+              <span>SEARCH</span>
+            </a>
+            <a href="/">
+              <img src={WatchListIcon} alt="" />
+              <span>WATCHLIST</span>
+            </a>
+            <a href="/">
+              <img src={OriginalsIcon} alt="" />
+              <span>ORIGINALS</span>
+            </a>
+            <a href="/">
+              <img src={MoviesIcon} alt="" />
+              <span>MOVIES</span>
+            </a>
+            <a href="/">
+              <img src={SeriesIcon} alt="" />
+              <span>SERIES</span>
+            </a>
+          </NavMenu>
+          <UserImage onClick={signOut} src = {userPhoto} />
+        </>)
+      }
     </Nav>
   )
 }
@@ -64,6 +107,7 @@ const Nav = styled.nav`
   align-items: center;
   padding: 0 36px;
   overflow-x: hidden;
+  justify-content: space-between;
 `
 
 const Logo = styled.img`
@@ -117,14 +161,13 @@ const NavMenu = styled.div`
       
 `
 
-// const UserImage = styled.img`
-//   width: 48px;
-//   height: 48px;
-//   object-fit: contain;
-//   border-radius: 50%;
-//   cursor: pointer;
-
-// `
+const UserImage = styled.img`
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 50%;
+  cursor: pointer;
+`
 
 const Login = styled.a`
   background: rgba(0, 0, 0, 0.6);
@@ -134,6 +177,7 @@ const Login = styled.a`
   border: 1px solid #f9f9f9;
   border-radius: 4px;
   transition: all .2s ease 0s;
+  cursor: pointer;
 
   &:hover{
     background: #f9f9f9;

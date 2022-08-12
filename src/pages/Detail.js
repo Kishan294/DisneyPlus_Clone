@@ -1,40 +1,66 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import PlayIcon from '../assets/images/play-icon-black.png'
 import TrailerIcon from '../assets/images/play-icon-white.png'
 import GroupIcon from '../assets/images/group-icon.png'
+import { useParams } from "react-router-dom"
+import { db } from '../firebase.config'
+import { getDoc, doc } from 'firebase/firestore'
 
 const Detail = () => {
+    const { id } = useParams();
+    const [movie, setMovie] = useState()
+
+    useEffect(() => {
+
+        const getMovies = async () => {
+            const collectionRef = doc(db, 'movies', id)
+            const response = await getDoc(collectionRef);
+            if (response.exists()) {
+                setMovie(response.data());
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }
+        getMovies();
+
+    }, [])
+
     return (
         <Container>
-            <Background>
-                <img src="https://images.unsplash.com/photo-1659702206825-9a12c348902e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1100&q=80" alt="" />
-            </Background>
-            <ImageTitle>
-                <img src="https://images.unsplash.com/photo-1659702206825-9a12c348902e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1100&q=80" alt="" />
-            </ImageTitle>
-            <Controls>
-                <PlayButton>
-                    <img src={PlayIcon} alt="" srcset="" />
-                    <span>PLAY</span>
-                </PlayButton>
-                <TrailerButton>
-                    <img src={TrailerIcon} alt="" srcset="" />
-                    <span>TRAILER</span>
-                </TrailerButton>
-                <AddButton>
-                    <span>+</span>
-                </AddButton>
-                <GroupWatchButton>
-                    <img src={GroupIcon} alt="" />
-                </GroupWatchButton>
-            </Controls>
-            <SubTitle>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias, temporibus.
-            </SubTitle>
-            <Description>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, libero velit molestias magni aperiam adipisci, expedita laborum tempora iste mollitia ipsum, vitae illo nulla labore id quos ab quae sed animi et repellat aspernatur facilis. Totam adipisci amet hic, qui dicta voluptatum animi maxime earum?
-            </Description>
+            {movie && (
+                <>
+                    <Background>
+                        <img src={movie.backgroundImg} alt="" />
+                    </Background>
+                    <ImageTitle>
+                        <img src={movie.titleImg} alt="" />
+                    </ImageTitle>
+                    <Controls>
+                        <PlayButton>
+                            <img src={PlayIcon} alt="" srcset="" />
+                            <span>PLAY</span>
+                        </PlayButton>
+                        <TrailerButton>
+                            <img src={TrailerIcon} alt="" srcset="" />
+                            <span>TRAILER</span>
+                        </TrailerButton>
+                        <AddButton>
+                            <span>+</span>
+                        </AddButton>
+                        <GroupWatchButton>
+                            <img src={GroupIcon} alt="" />
+                        </GroupWatchButton>
+                    </Controls>
+                    <SubTitle>
+                        {movie.subTitle}
+                    </SubTitle>
+                    <Description>
+                        {movie.description}
+                    </Description>
+                </>
+            )}
         </Container>
 
     )
@@ -72,7 +98,7 @@ const ImageTitle = styled.div`
     margin-top: 60px;
 
     img {
-        width: 100%;
+        /* width: 100%; */
         height: 100%;
         object-fit: contain;
     }
@@ -81,6 +107,7 @@ const ImageTitle = styled.div`
 const Controls = styled.div`
     display: flex;
     align-items: center;
+    margin-top: 20px;
 `
 
 const PlayButton = styled.button`
@@ -140,14 +167,15 @@ const GroupWatchButton = styled(AddButton)`
 
 const SubTitle = styled.div`
     color: rgb(249, 249, 249);
-    font-size: 15px;
+    font-size: 14px;
     min-height: 20px;
     margin-top: 26px;
 `
 
-const Description= styled.div`
+const Description = styled.div`
     line-height: 1.4;
-    font-size: 20px;
+    font-size: 17px;
+    font-weight: 300;
     margin-top: 16px;
     max-width: 500px;
 `
