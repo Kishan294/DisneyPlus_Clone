@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/DisneyPlus_Clone/static/css/main.877f1fc6.css",
+    "main.js": "/DisneyPlus_Clone/static/js/main.08b8c690.js",
+    "static/media/login-background.jpg": "/DisneyPlus_Clone/static/media/login-background.05b1a1b3088cbb458939.jpg",
+    "static/media/home-background.png": "/DisneyPlus_Clone/static/media/home-background.a0c4bdd961442f1bc8b1.png",
+    "static/media/slider-badag.jpg": "/DisneyPlus_Clone/static/media/slider-badag.36599446c404fd8b5989.jpg",
+    "static/media/slider-badging.jpg": "/DisneyPlus_Clone/static/media/slider-badging.b33dd5b6b1aab9795814.jpg",
+    "static/media/viewers-starwars.png": "/DisneyPlus_Clone/static/media/viewers-starwars.3fb2e20c0faee83d89db.png",
+    "static/media/cta-logo-two.png": "/DisneyPlus_Clone/static/media/cta-logo-two.e69ae55254630c715843.png",
+    "static/media/viewers-disney.png": "/DisneyPlus_Clone/static/media/viewers-disney.eb5bab59e7bf29389dc7.png",
+    "static/media/viewers-national.png": "/DisneyPlus_Clone/static/media/viewers-national.c50dd65f4a3d07a590f7.png",
+    "static/media/cta-logo-one.svg": "/DisneyPlus_Clone/static/media/cta-logo-one.1e2a5ccbbcbea0879d03e030e1e295ff.svg",
+    "static/media/logo.svg": "/DisneyPlus_Clone/static/media/logo.8205aae82a3c67ca943e8628e2183b0d.svg",
+    "index.html": "/DisneyPlus_Clone/index.html",
+    "static/media/movie-icon.svg": "/DisneyPlus_Clone/static/media/movie-icon.1a6f6ada8d37edf9c4a59f7ad16816f5.svg",
+    "static/media/series-icon.svg": "/DisneyPlus_Clone/static/media/series-icon.4d410db656710c14710332d27cec00a9.svg",
+    "static/media/search-icon.svg": "/DisneyPlus_Clone/static/media/search-icon.46aff20f64bfe1a300ddd5ef420fc006.svg",
+    "static/media/watchlist-icon.svg": "/DisneyPlus_Clone/static/media/watchlist-icon.0b5a945bede19872d5d95984d35ce12d.svg",
+    "static/media/original-icon.svg": "/DisneyPlus_Clone/static/media/original-icon.d7752d89e5a5d2b6276338bea45f413b.svg",
+    "static/media/home-icon.svg": "/DisneyPlus_Clone/static/media/home-icon.b6a11f9b406f2f13cd82608a276428e5.svg",
+    "main.877f1fc6.css.map": "/DisneyPlus_Clone/static/css/main.877f1fc6.css.map",
+    "main.08b8c690.js.map": "/DisneyPlus_Clone/static/js/main.08b8c690.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.877f1fc6.css",
+    "static/js/main.08b8c690.js"
+  ]
+}
